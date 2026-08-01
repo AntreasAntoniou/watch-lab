@@ -1,0 +1,12 @@
+.DS_Store
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+.playwright-mcp/
+
+# IMDb permits local personal/non-commercial copies but not republication.
+data/*
+!data/.gitkeep
