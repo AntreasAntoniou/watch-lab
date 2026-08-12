@@ -14,14 +14,15 @@
       <a class="wordmark" href="/" aria-label="Watch Lab home">
         <span>WATCH</span><i>/</i><span>LAB</span>
       </a>
-      <p class="source-note">Local title research console <span>·</span> IMDb daily data</p>
+      <p class="source-note" id="sourceNote">Local title research console <span>·</span> IMDb daily data</p>
+      <div class="mode-badge" id="modeBadge" hidden>Fictional demo data</div>
       <div class="build-state" id="buildState">Reading index…</div>
     </header>
 
     <main>
       <section class="thesis" aria-labelledby="pageTitle">
         <div>
-          <p class="eyebrow">The rated catalogue</p>
+          <p class="eyebrow" id="catalogueLabel">The rated catalogue</p>
           <h1 id="pageTitle"><span id="titleCount">—</span> titles,<br>cut your way.</h1>
         </div>
         <div class="counter-grid" aria-label="Dataset summary">
@@ -104,8 +105,8 @@
     </main>
 
     <footer>
-      <p>Information courtesy of <a href="https://www.imdb.com" target="_blank" rel="noreferrer">IMDb</a>. Used with permission.</p>
-      <p>Data stays on this machine.</p>
+      <p id="sourceFooter">Information courtesy of <a href="https://www.imdb.com" target="_blank" rel="noreferrer">IMDb</a>. Used with permission.</p>
+      <p id="dataFooter">Data stays on this machine.</p>
     </footer>
 
     <template id="emptyRow">

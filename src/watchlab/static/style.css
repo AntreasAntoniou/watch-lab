@@ -25,6 +25,20 @@ body {
     var(--paper);
 }
 
+[hidden] { display: none !important; }
+
+.mode-badge {
+  border: 1px solid var(--blue);
+  color: var(--blue);
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.67rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 0.38rem 0.58rem;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
 button, input, select { font: inherit; }
 button, select { cursor: pointer; }
 a { color: inherit; }
@@ -50,7 +64,8 @@ a { color: inherit; }
   margin-left: 18px;
   padding: 0 clamp(20px, 4vw, 64px);
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: auto 1fr auto auto;
+  gap: clamp(12px, 2vw, 28px);
   align-items: center;
   border-bottom: 1px solid var(--line);
   background: rgba(238, 243, 247, 0.88);
@@ -68,6 +83,7 @@ a { color: inherit; }
 }
 .wordmark i { color: var(--oxide); font-style: normal; }
 .source-note, .build-state { margin: 0; font: 400 11px/1.4 "SFMono-Regular", Consolas, monospace; color: var(--ink-soft); }
+.source-note { justify-self: center; }
 .source-note span { color: var(--oxide); }
 .build-state { justify-self: end; }
 
@@ -222,8 +238,9 @@ footer { margin-left: 18px; padding-block: 25px; display: flex; justify-content:
 .is-hidden { display: none !important; }
 
 @media (max-width: 900px) {
-  .masthead { grid-template-columns: 1fr auto; }
+  .masthead { grid-template-columns: auto 1fr auto; }
   .source-note { display: none; }
+  .mode-badge { justify-self: center; }
   .thesis { grid-template-columns: 1fr; min-height: 0; padding-block: 50px 38px; }
   .builders { grid-template-columns: 1fr; }
 }

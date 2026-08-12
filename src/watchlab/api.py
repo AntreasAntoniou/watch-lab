@@ -9,7 +9,8 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from .config import DATABASE_PATH, STATIC_DIR
+from . import __version__
+from .config import DATA_MODE, DATABASE_PATH, STATIC_DIR
 from .database import WatchDatabase
 from .schema import public_schema
 
@@ -33,8 +34,8 @@ class QueryRequest(BaseModel):
     page_size: int = Field(default=50, ge=10, le=250)
 
 
-def create_app(database_path: Path = DATABASE_PATH) -> FastAPI:
-    app = FastAPI(title="Watch Lab", version="0.1.0")
+def create_app(database_path: Path = DATABASE_PATH, data_mode: str = DATA_MODE) -> FastAPI:
+    app = FastAPI(title="Watch Lab", version=__version__)
     database: WatchDatabase | None = None
 
     def get_database() -> WatchDatabase:
@@ -57,6 +58,21 @@ def create_app(database_path: Path = DATABASE_PATH) -> FastAPI:
     @app.get("/api/stats")
     def stats() -> dict[str, Any]:
         return get_database().stats()
+
+    @app.get("/api/about")
+    def about() -> dict[str, object]:
+        is_demo = data_mode == "synthetic_demo"
+        notice = (
+            "This public instance contains fictional demonstration records only."
+            if is_demo
+            else "This private instance uses a locally downloaded IMDb dataset."
+        )
+        return {"data_mode": data_mode, "is_demo": is_demo, "notice": notice}
+
+    @app.get("/healthz")
+    def health() -> dict[str, str]:
+        get_database().stats()
+        return {"status": "ok"}
 
     @app.post("/api/query")
     def query(request: QueryRequest) -> dict[str, Any]:
