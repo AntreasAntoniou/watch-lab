@@ -66,10 +66,18 @@ docker build -t watch-lab .
 docker run --rm -p 7860:7860 watch-lab
 ```
 
-The image is provider-neutral, but the public deployment targets Hugging Face CPU Basic:
-the application needs CPU and a small ephemeral DuckDB file, not a GPU. The Space is a thin
-projection pinned to a Watch Lab release tag. RunPod remains a viable container target if a
-future licensed or compute-heavy edition actually benefits from its GPU/serverless model.
+The image is provider-neutral. The zero-cost public deployment uses a Hugging Face Static
+Space: a small browser adapter implements the same filter and sort contract over fictional
+records while reusing the canonical interface. Build that projection with:
+
+```bash
+uv run python deploy/static/build.py /tmp/watch-lab-static
+```
+
+`deploy/huggingface/` also contains a Docker Space projection pinned to a Watch Lab release
+tag. It can be enabled if CPU compute hosting is available on the target Hugging Face plan.
+RunPod remains a viable container target if a future licensed or compute-heavy edition actually
+benefits from its GPU/serverless model; it is unnecessary cost for this static public demo.
 
 ## Why the data is not committed
 
