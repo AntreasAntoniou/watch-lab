@@ -46,8 +46,14 @@ space for the local DuckDB database.
 
 ## Public demo
 
-The hosted demo exercises the real FastAPI, DuckDB, query compiler, and browser UI against
-24 invented records. Synthetic identifiers start with `demo-`, the interface displays a
+Try the live zero-cost demo at
+[antreas-watch-lab.static.hf.space](https://antreas-watch-lab.static.hf.space/). Its
+deployment source is visible in the public
+[Hugging Face Space](https://huggingface.co/spaces/Antreas/watch-lab/tree/main).
+
+The hosted static demo exercises the canonical browser UI and the same filter/sort contract
+against 24 invented records. The container demo additionally exercises FastAPI, DuckDB, and
+the Python query compiler. Synthetic identifiers start with `demo-`, the interface displays a
 prominent fictional-data label, and title cells do not link those records to IMDb.
 
 Run that same safe mode locally:

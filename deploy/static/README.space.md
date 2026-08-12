@@ -7,7 +7,7 @@ sdk: static
 app_file: index.html
 license: mit
 pinned: false
-short_description: Filter and sort a fictional title catalogue with the open-source Watch Lab UI.
+short_description: Filter and sort fictional titles with Watch Lab.
 ---
 
 # Watch Lab — public feature demo
