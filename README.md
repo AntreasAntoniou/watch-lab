@@ -6,10 +6,10 @@ scores source by source, see what is airing on television, scan a seasonal movie
 then search and filter millions of locally indexed titles without loading the catalogue
 into browser memory.
 
-The source is open, but the IMDb dataset is not redistributable. The public hosted
-version therefore uses live public APIs plus clearly labelled fictional archive records;
-the complete IMDb explorer runs locally after each user downloads the data directly from
-IMDb.
+The source is open, but the IMDb dataset is not redistributable. The public hosted version
+therefore contains only records fetched live from its named upstream sources. The complete
+IMDb explorer runs locally after each user downloads the data directly from IMDb. Watch Lab
+has no generated catalogue, placeholder titles, or fallback records.
 
 ## Live seasonal discovery
 
@@ -63,55 +63,46 @@ uv run watch-lab serve --port 9000
 The compressed source files are currently roughly 235 MB together. Allow additional
 space for the local DuckDB database.
 
-## Public demo
+## Public app
 
-Try the live zero-cost demo at
+Use the live zero-cost app at
 [antreas-watch-lab.static.hf.space](https://antreas-watch-lab.static.hf.space/). Its
 deployment source is visible in the public
 [Hugging Face Space](https://huggingface.co/spaces/Antreas/watch-lab/tree/main).
 
-The hosted static demo exercises the live discovery desk and the canonical archive UI. The
-archive uses the same filter/sort contract against 24 invented records; the container demo
-additionally exercises FastAPI, DuckDB, and the Python query compiler. Synthetic identifiers
-start with `demo-`, the interface displays a prominent fictional-data label, and title cells
-do not link those records to IMDb. Its year range begins at `1874`, matching the earliest year
-in the verified local IMDb snapshot rather than an arbitrary modern cutoff.
+The hosted static app is discovery-only: it fetches AniList, MyAnimeList/Jikan, and TVmaze
+records in the visitor's browser, and fetches TMDB movies only after the visitor connects a
+TMDB read token. If an upstream source is unavailable, Watch Lab reports that source as
+unavailable; it does not manufacture replacements.
 
-Run that same safe mode locally:
-
-```bash
-uv run watch-lab demo --database /tmp/watch-lab-demo.duckdb
-WATCH_LAB_DATA_MODE=synthetic_demo \
-WATCH_LAB_DB=/tmp/watch-lab-demo.duckdb \
-uv run watch-lab serve
-```
-
-The Docker image defaults to synthetic mode and exposes port 7860:
+The Docker image exposes the local IMDb explorer on port 7860 and refuses to start without
+a genuine database built by `watch-lab setup`:
 
 ```bash
 docker build -t watch-lab .
-docker run --rm -p 7860:7860 watch-lab
+docker run --rm -p 7860:7860 \
+  --mount type=bind,src="$PWD/data",dst=/data,readonly \
+  watch-lab
 ```
 
 The image is provider-neutral. The zero-cost public deployment uses a Hugging Face Static
-Space: a small browser adapter implements the same filter and sort contract over fictional
-records while reusing the canonical interface. Build that projection with:
+Space and deliberately omits the IMDb archive transport and interface. Build that projection
+with:
 
 ```bash
 uv run python deploy/static/build.py /tmp/watch-lab-static
 ```
 
-`deploy/huggingface/` also contains a Docker Space projection pinned to a Watch Lab release
-tag. It can be enabled if CPU compute hosting is available on the target Hugging Face plan.
-RunPod remains a viable container target if a future licensed or compute-heavy edition actually
-benefits from its GPU/serverless model; it is unnecessary cost for this static public demo.
+RunPod remains a viable container target for a future licensed or compute-heavy edition, but
+it is unnecessary cost for the live browser application. A hosted IMDb edition would require
+separate redistribution rights; compute hosting does not change that licensing boundary.
 
 ## Why the data is not committed
 
 IMDb makes these files available for personal and non-commercial use and allows individual
 local copies, but its terms prohibit republishing or repurposing them to create an online or
 offline movie database except for individual personal use. Watch Lab therefore keeps
-everything under `data/` out of Git and out of the public demo. Each local user downloads a
+everything under `data/` out of Git and out of the public app. Each local user downloads a
 current copy directly from IMDb.
 
 Please review IMDb's current [non-commercial dataset documentation](https://developer.imdb.com/non-commercial-datasets/)
@@ -143,9 +134,9 @@ uv run pytest
 uv run ruff check .
 ```
 
-The tests build temporary local and synthetic databases, exercise the same API used by the
-full dataset, and contract-test source normalization, seasonal selection, source joins,
-confidence adjustment, credential transport, and the static deployment projection.
+The tests build a temporary fixture database, exercise the same API used by the full dataset,
+and contract-test source normalization, seasonal selection, source joins, confidence
+adjustment, credential transport, and the discovery-only static deployment projection.
 
 ## Source terms and attribution
 

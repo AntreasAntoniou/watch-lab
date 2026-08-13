@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "watch-lab"
-version = "0.3.0"
+version = "0.3.1"
 description = "A live seasonal discovery desk and local IMDb research console"
 readme = "README.md"
 requires-python = ">=3.11"

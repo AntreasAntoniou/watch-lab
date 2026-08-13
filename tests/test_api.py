@@ -60,15 +60,14 @@ def test_rejects_unknown_columns(client: TestClient) -> None:
     assert "Unknown field" in response.json()["detail"]
 
 
-def test_about_identifies_synthetic_public_demo(database_path) -> None:
-    with TestClient(create_app(database_path, data_mode="synthetic_demo")) as demo_client:
-        response = demo_client.get("/api/about")
+def test_about_identifies_genuine_local_imdb_data(database_path) -> None:
+    with TestClient(create_app(database_path)) as local_client:
+        response = local_client.get("/api/about")
 
     assert response.status_code == 200
     assert response.json() == {
-        "data_mode": "synthetic_demo",
-        "is_demo": True,
-        "notice": "This public instance contains fictional demonstration records only.",
+        "data_mode": "local_imdb",
+        "notice": "This archive is built from IMDb's non-commercial title datasets.",
     }
 
 

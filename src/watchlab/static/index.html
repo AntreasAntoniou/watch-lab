@@ -16,11 +16,12 @@
       </a>
       <nav class="primary-nav" aria-label="Primary navigation">
         <a href="#discovery">On now</a>
+        <!-- STATIC_OMIT_START -->
         <a href="#catalogue">Archive</a>
+        <!-- STATIC_OMIT_END -->
       </nav>
-      <p class="source-note" id="sourceNote">Live discovery <span>·</span> local research</p>
-      <div class="mode-badge" id="modeBadge" hidden>Fictional demo data</div>
-      <div class="build-state"><span class="live-dot" aria-hidden="true"></span><span id="buildState">Reading index…</span></div>
+      <p class="source-note" id="sourceNote">Live sources <span>·</span> genuine records</p>
+      <div class="build-state"><span class="live-dot" aria-hidden="true"></span><span id="buildState">Reading live sources…</span></div>
     </header>
 
     <main>
@@ -94,6 +95,7 @@
         </div>
       </section>
 
+      <!-- STATIC_OMIT_START -->
       <section class="thesis" id="catalogue" aria-labelledby="pageTitle">
         <div>
           <p class="eyebrow" id="catalogueLabel">The local rated archive</p>
@@ -176,10 +178,11 @@
           <button id="nextPage" type="button">Next →</button>
         </nav>
       </section>
+      <!-- STATIC_OMIT_END -->
     </main>
 
     <footer>
-      <p id="sourceFooter">Sources: <a href="https://anilist.co" target="_blank" rel="noreferrer">AniList</a>, <a href="https://myanimelist.net" target="_blank" rel="noreferrer">MyAnimeList</a> via <a href="https://jikan.moe" target="_blank" rel="noreferrer">Jikan</a>, <a href="https://www.tvmaze.com" target="_blank" rel="noreferrer">TVmaze</a>, optional <a href="https://www.themoviedb.org" target="_blank" rel="noreferrer">TMDB</a>, and local <a href="https://www.imdb.com" target="_blank" rel="noreferrer">IMDb</a>.</p>
+      <p id="sourceFooter">Sources: <a href="https://anilist.co" target="_blank" rel="noreferrer">AniList</a>, <a href="https://myanimelist.net" target="_blank" rel="noreferrer">MyAnimeList</a> via <a href="https://jikan.moe" target="_blank" rel="noreferrer">Jikan</a>, <a href="https://www.tvmaze.com" target="_blank" rel="noreferrer">TVmaze</a>, optional <a href="https://www.themoviedb.org" target="_blank" rel="noreferrer">TMDB</a><!-- STATIC_OMIT_START -->, and local <a href="https://www.imdb.com" target="_blank" rel="noreferrer">IMDb</a><!-- STATIC_OMIT_END -->.</p>
       <p id="dataFooter">Live source data is fetched in your browser. TMDB tokens stay in this tab.</p>
     </footer>
 
@@ -200,6 +203,7 @@
       </form>
     </dialog>
 
+    <!-- STATIC_OMIT_START -->
     <template id="emptyRow">
       <tr><td colspan="11" class="empty-cell">No titles match this cut. Remove a filter or widen its value.</td></tr>
     </template>
@@ -207,8 +211,11 @@
       <option value="true"></option>
       <option value="false"></option>
     </datalist>
+    <!-- STATIC_OMIT_END -->
     <script src="/static/discovery.js"></script>
     <script src="/static/discovery-ui.js" defer></script>
+    <!-- STATIC_OMIT_START -->
     <script src="/static/app.js" defer></script>
+    <!-- STATIC_OMIT_END -->
   </body>
 </html>

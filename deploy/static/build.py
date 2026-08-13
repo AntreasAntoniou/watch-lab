@@ -1,11 +1,16 @@
 from __future__ import annotations
 
 import argparse
+import re
 import shutil
 from pathlib import Path
 
 REPOSITORY = Path(__file__).resolve().parents[2]
 CANONICAL_STATIC = REPOSITORY / "src" / "watchlab" / "static"
+STATIC_OMIT_PATTERN = re.compile(
+    r"\s*<!-- STATIC_OMIT_START -->.*?<!-- STATIC_OMIT_END -->",
+    re.DOTALL,
+)
 
 
 def build_static_space(output: Path) -> None:
@@ -14,18 +19,16 @@ def build_static_space(output: Path) -> None:
     static_output.mkdir(parents=True, exist_ok=True)
 
     index = (CANONICAL_STATIC / "index.html").read_text()
-    canonical_script = '    <script src="/static/app.js" defer></script>'
-    mock_and_app = (
-        '    <script src="/static/mock-api.js"></script>\n'
-        '    <script src="/static/app.js" defer></script>'
+    if "<!-- STATIC_OMIT_START -->" not in index:
+        raise RuntimeError("Static projection markers are missing from index.html")
+    static_index = STATIC_OMIT_PATTERN.sub("", index).replace(
+        '<span id="buildState">Reading live sources…</span>',
+        '<span id="buildState">Live now</span>',
     )
-    if canonical_script not in index:
-        raise RuntimeError("Canonical app script marker is missing from index.html")
-    (output / "index.html").write_text(index.replace(canonical_script, mock_and_app))
+    (output / "index.html").write_text(static_index)
 
-    for name in ("app.js", "discovery.js", "discovery-ui.js", "favicon.svg", "style.css"):
+    for name in ("discovery.js", "discovery-ui.js", "favicon.svg", "style.css"):
         shutil.copy2(CANONICAL_STATIC / name, static_output / name)
-    shutil.copy2(Path(__file__).with_name("mock-api.js"), static_output / "mock-api.js")
     shutil.copy2(Path(__file__).with_name("README.space.md"), output / "README.md")
 
 

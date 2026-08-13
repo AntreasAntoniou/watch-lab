@@ -17,8 +17,9 @@ This zero-cost static Space runs the open-source
 anime from AniList and MyAnimeList via Jikan, daily television schedules from TVmaze, and
 seasonal movies when the visitor connects a TMDB read token for the current browser tab.
 
-The archival research console beneath it runs against 24 fictional records and demonstrates
-typed filters, multi-column sorting, search, and pagination without publishing IMDb data.
+Every title shown here comes from a named live source. If a source is unavailable, the app
+shows that failure instead of substituting generated records.
 
-To explore IMDb's non-commercial datasets, install Watch Lab locally and download the data
-directly from IMDb under its terms. This public Space never downloads or serves that dataset.
+The IMDb archival research console is intentionally absent from this public build. To use it,
+install Watch Lab locally and download IMDb's non-commercial datasets directly under their
+terms. This public Space never downloads or serves that dataset.

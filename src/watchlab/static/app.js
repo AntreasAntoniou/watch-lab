@@ -6,7 +6,6 @@ const state = {
   page: 1,
   pageSize: 50,
   pages: 1,
-  isDemo: false,
 };
 
 const operators = {
@@ -141,7 +140,6 @@ function renderHead() {
 function renderValue(field, value, row) {
   if (value === null || value === undefined) return '<span class="null">—</span>';
   if (field.key === "primary_title") {
-    if (state.isDemo) return escapeHtml(value);
     return `<a href="https://www.imdb.com/title/${encodeURIComponent(row.imdb_id)}/" target="_blank" rel="noreferrer" title="${escapeHtml(value)}">${escapeHtml(value)}</a>`;
   }
   if (field.key === "average_rating") return `<span class="rating">${Number(value).toFixed(1)}</span>`;
@@ -193,8 +191,8 @@ async function runQuery() {
 }
 
 async function initialise() {
-  const [schemaResponse, statsResponse, aboutResponse] = await Promise.all([
-    fetch("/api/schema"), fetch("/api/stats"), fetch("/api/about"),
+  const [schemaResponse, statsResponse] = await Promise.all([
+    fetch("/api/schema"), fetch("/api/stats"),
   ]);
   const schema = await schemaResponse.json();
   if (!statsResponse.ok) {
@@ -202,15 +200,6 @@ async function initialise() {
     throw new Error(error.detail || "Dataset unavailable");
   }
   const stats = await statsResponse.json();
-  const about = await aboutResponse.json();
-  state.isDemo = about.is_demo;
-  if (state.isDemo) {
-    $("#modeBadge").hidden = false;
-    $("#sourceNote").innerHTML = "Public feature demo <span>·</span> fictional records";
-    $("#catalogueLabel").textContent = "The fictional catalogue";
-    $("#dataFooter").textContent = `${about.notice} Live discovery data is fetched from its named source.`;
-    $("#searchInput").placeholder = "e.g. Lanterns at Low Tide or demo-001";
-  }
   state.fields = schema.fields;
   fillFieldSelects();
   renderRules();
