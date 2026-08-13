@@ -1,3 +1,3 @@
-"""Watch Lab: a local IMDb dataset explorer."""
+"""Watch Lab: live seasonal discovery and a local IMDb dataset explorer."""
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"

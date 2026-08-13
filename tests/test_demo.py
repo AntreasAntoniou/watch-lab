@@ -36,3 +36,14 @@ def test_demo_cli_builds_a_queryable_database_at_the_requested_path(tmp_path: Pa
         assert database.stats()["rated_titles"] == 24
     finally:
         database.close()
+
+
+def test_demo_year_range_starts_at_the_earliest_catalogue_year(tmp_path: Path) -> None:
+    database_path = build_demo_database(tmp_path / "demo.duckdb")
+    database = WatchDatabase(database_path)
+    try:
+        stats = database.stats()
+    finally:
+        database.close()
+
+    assert stats["earliest_year"] == 1874

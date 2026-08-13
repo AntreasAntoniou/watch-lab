@@ -17,3 +17,5 @@ def test_static_space_builder_injects_mock_transport_before_canonical_app(tmp_pa
     assert (tmp_path / "README.md").is_file()
     assert (tmp_path / "static" / "style.css").is_file()
     assert (tmp_path / "static" / "favicon.svg").is_file()
+    assert (tmp_path / "static" / "discovery.js").is_file()
+    assert (tmp_path / "static" / "discovery-ui.js").is_file()

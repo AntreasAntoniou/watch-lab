@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Filter and sort IMDb title ratings locally.">
-    <title>Watch Lab — title research console</title>
+    <meta name="description" content="Read the season across AniList, MyAnimeList, TVmaze, TMDB, and your local IMDb index.">
+    <title>Watch Lab — what is worth watching now?</title>
     <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="/static/style.css">
   </head>
@@ -14,16 +14,90 @@
       <a class="wordmark" href="/" aria-label="Watch Lab home">
         <span>WATCH</span><i>/</i><span>LAB</span>
       </a>
-      <p class="source-note" id="sourceNote">Local title research console <span>·</span> IMDb daily data</p>
+      <nav class="primary-nav" aria-label="Primary navigation">
+        <a href="#discovery">On now</a>
+        <a href="#catalogue">Archive</a>
+      </nav>
+      <p class="source-note" id="sourceNote">Live discovery <span>·</span> local research</p>
       <div class="mode-badge" id="modeBadge" hidden>Fictional demo data</div>
-      <div class="build-state" id="buildState">Reading index…</div>
+      <div class="build-state"><span class="live-dot" aria-hidden="true"></span><span id="buildState">Reading index…</span></div>
     </header>
 
     <main>
-      <section class="thesis" aria-labelledby="pageTitle">
+      <section class="discovery" id="discovery" aria-labelledby="discoveryTitle">
+        <div class="broadcast-grid" aria-hidden="true"></div>
+        <div class="discovery-inner">
+          <div class="discovery-intro">
+            <div>
+              <p class="eyebrow live-eyebrow"><span></span> Seasonal transmission</p>
+              <h1 id="discoveryTitle">Find the signal<br><em>before the noise.</em></h1>
+              <p class="discovery-lede">Current scores, audience confidence, and release momentum—read source by source, refreshed live.</p>
+            </div>
+            <div class="signal-note">
+              <span class="signal-note-label">How to read it</span>
+              <p>Pick score adjusts ratings toward neutral when the audience is still small. Original source scores always stay visible.</p>
+            </div>
+          </div>
+
+          <div class="season-reel" aria-label="Season selector">
+            <button class="year-step" id="previousYear" type="button" aria-label="Previous year">←</button>
+            <div class="season-window">
+              <div class="season-reel-head">
+                <span id="seasonYear">2026</span>
+                <small id="seasonStatus">Finding this season…</small>
+              </div>
+              <div class="season-track" id="seasonTrack">
+                <button type="button" data-season="WINTER">Winter</button>
+                <button type="button" data-season="SPRING">Spring</button>
+                <button type="button" data-season="SUMMER">Summer</button>
+                <button type="button" data-season="FALL">Autumn</button>
+                <i class="broadcast-marker" aria-hidden="true"></i>
+              </div>
+            </div>
+            <button class="year-step" id="nextYear" type="button" aria-label="Next year">→</button>
+          </div>
+
+          <div class="discovery-toolbar">
+            <div class="media-tabs" id="mediaTabs" role="group" aria-label="Media type">
+              <button type="button" data-kind="all" class="is-active">All <span id="countAll">0</span></button>
+              <button type="button" data-kind="anime">Anime <span id="countAnime">0</span></button>
+              <button type="button" data-kind="tv">TV <span id="countTv">0</span></button>
+              <button type="button" data-kind="movie">Movies <span id="countMovie">0</span></button>
+            </div>
+            <div class="discovery-actions">
+              <label class="discovery-sort">Order
+                <select id="discoverySort">
+                  <option value="pick">Pick score</option>
+                  <option value="rating">Raw rating</option>
+                  <option value="audience">Audience</option>
+                  <option value="date">Release date</option>
+                </select>
+              </label>
+              <button class="refresh-button" id="refreshDiscovery" type="button">Refresh live</button>
+            </div>
+          </div>
+
+          <div class="source-rail" id="sourceRail" aria-live="polite">
+            <span data-source="anilist">AniList</span>
+            <span data-source="mal">MyAnimeList · Jikan</span>
+            <span data-source="tvmaze">TVmaze</span>
+            <button type="button" data-source="tmdb" id="connectTmdb">TMDB · connect</button>
+            <small id="lastUpdated">Waiting for live sources</small>
+          </div>
+
+          <div class="discovery-grid" id="discoveryGrid" aria-live="polite" aria-busy="true"></div>
+          <div class="discovery-empty" id="discoveryEmpty" hidden>
+            <strong>No signal in this cut.</strong>
+            <span>Try another season, media type, or connect TMDB for live movies.</span>
+          </div>
+          <p class="discovery-footnote" id="discoveryFootnote">Anime follows the selected season. TV uses the selected season’s representative schedule date. Movies use the exact seasonal release window when TMDB is connected.</p>
+        </div>
+      </section>
+
+      <section class="thesis" id="catalogue" aria-labelledby="pageTitle">
         <div>
-          <p class="eyebrow" id="catalogueLabel">The rated catalogue</p>
-          <h1 id="pageTitle"><span id="titleCount">—</span> titles,<br>cut your way.</h1>
+          <p class="eyebrow" id="catalogueLabel">The local rated archive</p>
+          <h2 id="pageTitle"><span id="titleCount">—</span> titles,<br>cut your way.</h2>
         </div>
         <div class="counter-grid" aria-label="Dataset summary">
           <div><span id="voteCount">—</span><small>recorded votes</small></div>
@@ -105,9 +179,26 @@
     </main>
 
     <footer>
-      <p id="sourceFooter">Information courtesy of <a href="https://www.imdb.com" target="_blank" rel="noreferrer">IMDb</a>. Used with permission.</p>
-      <p id="dataFooter">Data stays on this machine.</p>
+      <p id="sourceFooter">Sources: <a href="https://anilist.co" target="_blank" rel="noreferrer">AniList</a>, <a href="https://myanimelist.net" target="_blank" rel="noreferrer">MyAnimeList</a> via <a href="https://jikan.moe" target="_blank" rel="noreferrer">Jikan</a>, <a href="https://www.tvmaze.com" target="_blank" rel="noreferrer">TVmaze</a>, optional <a href="https://www.themoviedb.org" target="_blank" rel="noreferrer">TMDB</a>, and local <a href="https://www.imdb.com" target="_blank" rel="noreferrer">IMDb</a>.</p>
+      <p id="dataFooter">Live source data is fetched in your browser. TMDB tokens stay in this tab.</p>
     </footer>
+
+    <dialog class="tmdb-dialog" id="tmdbDialog" aria-labelledby="tmdbDialogTitle">
+      <form method="dialog">
+        <button class="dialog-close" value="cancel" aria-label="Close">×</button>
+        <p class="eyebrow">Movie source</p>
+        <h2 id="tmdbDialogTitle">Connect TMDB</h2>
+        <p>Paste a TMDB API Read Access Token. It stays in this browser tab and is sent only to <code>api.themoviedb.org</code>.</p>
+        <label>Read access token
+          <input id="tmdbToken" type="password" autocomplete="off" spellcheck="false" placeholder="eyJhbGci…">
+        </label>
+        <div class="dialog-actions">
+          <button value="cancel" type="submit" class="quiet-button">Cancel</button>
+          <button value="default" type="button" id="saveTmdbToken">Connect movies</button>
+        </div>
+        <small>This product uses the TMDB API but is not endorsed or certified by TMDB.</small>
+      </form>
+    </dialog>
 
     <template id="emptyRow">
       <tr><td colspan="11" class="empty-cell">No titles match this cut. Remove a filter or widen its value.</td></tr>
@@ -116,6 +207,8 @@
       <option value="true"></option>
       <option value="false"></option>
     </datalist>
+    <script src="/static/discovery.js"></script>
+    <script src="/static/discovery-ui.js" defer></script>
     <script src="/static/app.js" defer></script>
   </body>
 </html>

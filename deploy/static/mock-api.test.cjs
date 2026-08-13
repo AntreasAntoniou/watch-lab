@@ -1,7 +1,7 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
 
-const { queryRows } = require("./mock-api.js");
+const { demoRows, queryRows } = require("./mock-api.js");
 
 const rows = [
   { imdb_id: "demo-001", primary_title: "Lantern Light", original_title: "Lantern Light", start_year: 2021, num_votes: 4000 },
@@ -39,4 +39,8 @@ test("static demo supports null, between, and boolean filters", () => {
   });
 
   assert.deepEqual(result.rows.map((row) => row.imdb_id), ["demo-001"]);
+});
+
+test("static demo exposes the full historical release-year floor", () => {
+  assert.equal(Math.min(...demoRows.map((row) => row.start_year)), 1874);
 });

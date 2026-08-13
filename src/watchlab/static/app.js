@@ -208,8 +208,7 @@ async function initialise() {
     $("#modeBadge").hidden = false;
     $("#sourceNote").innerHTML = "Public feature demo <span>·</span> fictional records";
     $("#catalogueLabel").textContent = "The fictional catalogue";
-    $("#sourceFooter").textContent = about.notice;
-    $("#dataFooter").textContent = "Install locally to explore IMDb data under IMDb's terms.";
+    $("#dataFooter").textContent = `${about.notice} Live discovery data is fetched from its named source.`;
     $("#searchInput").placeholder = "e.g. Lanterns at Low Tide or demo-001";
   }
   state.fields = schema.fields;

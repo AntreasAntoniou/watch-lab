@@ -13,7 +13,7 @@ DEMO_ROWS = (
         "Lanterns at Low Tide",
         "Lanterns at Low Tide",
         "movie",
-        2021,
+        1874,
         None,
         104,
         "Drama,Mystery",

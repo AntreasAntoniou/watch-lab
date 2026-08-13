@@ -23,7 +23,7 @@ def build_static_space(output: Path) -> None:
         raise RuntimeError("Canonical app script marker is missing from index.html")
     (output / "index.html").write_text(index.replace(canonical_script, mock_and_app))
 
-    for name in ("app.js", "favicon.svg", "style.css"):
+    for name in ("app.js", "discovery.js", "discovery-ui.js", "favicon.svg", "style.css"):
         shutil.copy2(CANONICAL_STATIC / name, static_output / name)
     shutil.copy2(Path(__file__).with_name("mock-api.js"), static_output / "mock-api.js")
     shutil.copy2(Path(__file__).with_name("README.space.md"), output / "README.md")

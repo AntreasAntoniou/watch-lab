@@ -1,13 +1,32 @@
 # Watch Lab
 
-Watch Lab turns IMDb's daily title and aggregate-rating datasets into a fast local
-research console. Search titles, compose typed filters over every available field,
-apply multiple sort keys, and move through millions of records without loading the
-whole dataset into the browser.
+Watch Lab is a live seasonal programming desk over AniList, MyAnimeList, TVmaze, and
+optional TMDB, with a fast local IMDb research console underneath. Compare current anime
+scores source by source, see what is airing on television, scan a seasonal movie window,
+then search and filter millions of locally indexed titles without loading the catalogue
+into browser memory.
 
 The source is open, but the IMDb dataset is not redistributable. The public hosted
-version therefore uses clearly labelled fictional records; the complete IMDb explorer
-runs locally after each user downloads the data directly from IMDb.
+version therefore uses live public APIs plus clearly labelled fictional archive records;
+the complete IMDb explorer runs locally after each user downloads the data directly from
+IMDb.
+
+## Live seasonal discovery
+
+- **Anime:** AniList and MyAnimeList/Jikan are joined by MyAnimeList ID. Their scores remain
+  separate and visible rather than being presented as one interchangeable rating.
+- **Television:** TVmaze supplies broadcast and streaming premieres for the representative
+  day in the selected season.
+- **Movies:** TMDB supplies movies released inside the exact seasonal date window after a
+  visitor provides an API Read Access Token. The token stays in `sessionStorage`, leaves
+  when the tab closes, and is sent only to `api.themoviedb.org`.
+- **Live updates:** refresh manually or leave the page open; visible pages refresh stale
+  source data every 15 minutes.
+
+The derived **pick score** adjusts each 0–100 source score toward a neutral 65 while its
+audience evidence is small, then converges on the published rating as confidence grows.
+It is a ranking aid, not an additional community rating. Raw source scores and audience
+signals always remain visible.
 
 ## What you can explore
 
@@ -51,10 +70,12 @@ Try the live zero-cost demo at
 deployment source is visible in the public
 [Hugging Face Space](https://huggingface.co/spaces/Antreas/watch-lab/tree/main).
 
-The hosted static demo exercises the canonical browser UI and the same filter/sort contract
-against 24 invented records. The container demo additionally exercises FastAPI, DuckDB, and
-the Python query compiler. Synthetic identifiers start with `demo-`, the interface displays a
-prominent fictional-data label, and title cells do not link those records to IMDb.
+The hosted static demo exercises the live discovery desk and the canonical archive UI. The
+archive uses the same filter/sort contract against 24 invented records; the container demo
+additionally exercises FastAPI, DuckDB, and the Python query compiler. Synthetic identifiers
+start with `demo-`, the interface displays a prominent fictional-data label, and title cells
+do not link those records to IMDb. Its year range begins at `1874`, matching the earliest year
+in the verified local IMDb snapshot rather than an arbitrary modern cutoff.
 
 Run that same safe mode locally:
 
@@ -122,8 +143,17 @@ uv run pytest
 uv run ruff check .
 ```
 
-The tests build temporary local and synthetic databases and exercise the same API used by
-the full dataset.
+The tests build temporary local and synthetic databases, exercise the same API used by the
+full dataset, and contract-test source normalization, seasonal selection, source joins,
+confidence adjustment, credential transport, and the static deployment projection.
+
+## Source terms and attribution
+
+Watch Lab calls AniList's public GraphQL API, the unofficial Jikan API for MyAnimeList data,
+and TVmaze's public API directly from the browser. TVmaze data is CC BY-SA and links back to
+its source. TMDB access requires the visitor's own application token and is subject to TMDB's
+terms and attribution requirements. Availability, rate limits, and upstream scores remain
+controlled by those services.
 
 ## License
 

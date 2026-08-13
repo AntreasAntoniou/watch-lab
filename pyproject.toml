@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "watch-lab"
-version = "0.2.0"
-description = "A local, filter-anything explorer for IMDb's non-commercial title datasets"
+version = "0.3.0"
+description = "A live seasonal discovery desk and local IMDb research console"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
